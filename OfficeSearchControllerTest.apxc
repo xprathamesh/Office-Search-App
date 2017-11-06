@@ -1,0 +1,74 @@
+@isTest
+public class OfficeSearchControllerTest {
+    
+    @isTest static void testDat(){
+        List<Office__c> results = OfficeSearchController.fetchAccount('atos',false);
+        String searchKey = '%' + 'atos' + '%';
+        /*List<Office__c> lstOfOffice = 	[select Name, Office_Zone__c, Office_Summary__c,Office_Category__c 
+                       						from Office__c 
+                       						where Office_Zone__c LIKE :searchKey OR Office_Summary__c LIKE :searchKey OR Office_Category__c like :searchKey];
+        */
+        List<Office__c> lstOfOffice = new List<Office__c>{	new Office__c(Name='Atos Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Atos Office', Office_Category__c='Executive'),
+            												new Office__c(Name='Atos Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Atos Office', Office_Category__c='Executive'),
+            												new Office__c(Name='Atos France', Office_Zone__c='EURO', Office_Summary__c='The All French Atossof is ..', Office_Category__c='Executive')};
+        System.assertEquals(lstOfOffice , results);
+    }
+    
+    @isTest static void testDatNam(){
+        List<Office__c> results = OfficeSearchController.fetchAccount('Executive',true);
+        String searchKey = '%' + 'Executive' + '%';
+        /*List<Office__c> lstOfOffice = 	[select Name, Office_Zone__c, Office_Summary__c,Office_Category__c 
+                       						from Office__c 
+                       						where Office_Zone__c=:'NAM' AND (Office_Zone__c LIKE :searchKey OR Office_Summary__c LIKE :searchKey OR Office_Category__c like :searchKey)];*/
+        List<Office__c> lstOfOffice = new List<Office__c>{	new Office__c(Name='Atos Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Atos Office', Office_Category__c='Executive'),
+            												new Office__c(Name='AT&T Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for AT&T Office', Office_Category__c='Executive'),
+            												new Office__c(Name='Apple Inc. USA', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Apple Inc. Office', Office_Category__c='Executive'),
+            												new Office__c(Name='SalesForce US', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for SalesForce Office', Office_Category__c='Executive'),
+            												new Office__c(Name='Atos Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Atos Office', Office_Category__c='Executive'),
+            												new Office__c(Name='AT&T Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for AT&T Office', Office_Category__c='Executive')};
+        
+        System.assertEquals(lstOfOffice , results);
+    }
+    
+    @isTest static void testNDat(){
+        List<Office__c> results = OfficeSearchController.fetchAccount('',false);
+        List<Office__c> lstOfOffice;
+        System.assertEquals(lstOfOffice , results);
+    }
+    
+    @isTest static void testNDatNam(){
+        List<Office__c> results = OfficeSearchController.fetchAccount('',true);
+        /*List<Office__c> lstOfOffice = 	[select Name, Office_Zone__c, Office_Summary__c,Office_Category__c 
+                       						from Office__c 
+                       						where Office_Zone__c=:'NAM'];
+        */
+        List<Office__c> lstOfOffice = new List<Office__c>{	new Office__c(Name='Microsoft W', Office_Zone__c='NAM', Office_Summary__c='Best Microsoft office in the world, arguably', Office_Category__c='Premium'),
+            												new Office__c(Name='GenePoint Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for GenePoint Office', Office_Category__c='Business'),
+            												new Office__c(Name='Burlington Textiles Corp of America Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Burlington Textiles Corp of America Office', Office_Category__c='Premium'),
+            												new Office__c(Name='United Oil & Gas Corp. Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for United Oil & Gas Corp. Office', Office_Category__c='Premium'),
+            												new Office__c(Name='Atos Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Atos Office', Office_Category__c='Executive'),
+            												new Office__c(Name='Microsoft Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Microsoft Office', Office_Category__c='Business'),
+            												new Office__c(Name='Amazon Office 1', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Amazon Office', Office_Category__c='Premium'),
+            												new Office__c(Name='AT&T Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for AT&T Office', Office_Category__c='Executive'),
+            												new Office__c(Name='VERIZON Office 1', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Verizon Office', Office_Category__c='Business'),
+            												new Office__c(Name='Apple Inc. USA', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Apple Inc. Office', Office_Category__c='Executive'),
+            												new Office__c(Name='SalesForce US', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for SalesForce Office', Office_Category__c='Executive'),
+            												new Office__c(Name='AON NA', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Aon Office', Office_Category__c='Business'),
+            												new Office__c(Name='HSBC Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for HSBC Office', Office_Category__c='Premium'),
+            												new Office__c(Name='Citi Corp Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Citi Corp Office', Office_Category__c='Business'),
+            												new Office__c(Name='GenePoint Office 2', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for GenePoint Office', Office_Category__c='Business'),
+            												new Office__c(Name='Burlington Textiles Corp of America Office', Office_Zone__c='NAM', Office_Summary__c='Burlington Textiles Corp of America Office', Office_Category__c='Premium'),
+            												new Office__c(Name='University of Arizona Office', Office_Zone__c='NAM', Office_Summary__c='University of Arizona Office', Office_Category__c='Business'),
+            												new Office__c(Name='United Oil & Gas Corp. Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for United Oil & Gas Corp. Office', Office_Category__c='Premium'),
+            												new Office__c(Name='Atos Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Atos Office', Office_Category__c='Executive'),
+            												new Office__c(Name='Microsoft Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Microsoft Office', Office_Category__c='Business'),
+            												new Office__c(Name='AT&T Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for AT&T Office', Office_Category__c='Executive'),
+            												new Office__c(Name='VERIZON Office 2', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Verizon Office', Office_Category__c='Business'),
+            												new Office__c(Name='Sony US', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Sony Office', Office_Category__c='Business'),
+            												new Office__c(Name='Siemens US', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for Siemens Office', Office_Category__c='Premium'),
+            												new Office__c(Name='Citi Corp Office', Office_Zone__c='NAM', Office_Summary__c='Summary Dummy for City Corp Office', Office_Category__c='Business')};
+            												
+        
+        System.assertEquals(lstOfOffice, results);
+    }
+}

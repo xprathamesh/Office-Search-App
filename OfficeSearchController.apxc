@@ -1,0 +1,26 @@
+public with sharing class OfficeSearchController {
+ 
+ @AuraEnabled
+ //public Boolean IsNAM {get;set;}
+    public static List<Office__c> fetchAccount(String searchKeyWord, Boolean IsNAM){
+        searchKeyWord = searchKeyWord.trim();
+        String searchKey = '%'+searchKeyWord+'%';
+  //List < Office__c > returnList = new List < Office__c > ();
+    // List<Office__c> Slist = [select id from Office__c];
+     List < Office__c > lstOfAccount;
+        
+     //for(Office__c s: slist){
+       if(IsNAM){
+            lstOfAccount = [select Name, Office_Zone__c, Office_Summary__c,Office_Category__c from Office__c where Office_Zone__c=:'NAM' AND (Name like :searchKey OR Office_Zone__c LIKE :searchKey  OR Office_Summary__c LIKE :searchKey OR Office_Category__c like :searchKey)];
+            
+        }else{
+            lstOfAccount = [select Name, Office_Zone__c, Office_Summary__c,Office_Category__c from Office__c WHERE (Name like :searchKey OR Office_Zone__c LIKE :searchKey  OR Office_Summary__c LIKE :searchKey OR Office_Category__c LIKE :searchKey)];
+            
+        }
+     //}   
+  //for (Office__c acc: lstOfAccount) {
+   //returnList.add(acc);
+  //}
+  return lstOfAccount;
+ }
+}

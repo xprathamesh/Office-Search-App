@@ -1,0 +1,99 @@
+<aura:component controller="OfficeSearchController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<!--### declared attributes ###-->
+   	<aura:attribute name="searchResult" type="List" description="use for store and display account list return from server"/>
+   	<aura:attribute name="searchKeyword" type="String" description="use for store user search input"/>
+   	<aura:attribute name="Message" type="boolean" default="false" description="use for display no record found message"/>
+   	<aura:attribute name="IsNAM" type="boolean" default="false" description="use for North America Check"/>
+	<aura:attribute name="numberOfRecord" type="integer" default="0" description="use for display Number of records"/>
+   	<div class="BgCol">
+    <div style="padding:20px;background-color:rgba(85,107,47, 0.75);color:#fff;"><h3>Office Search</h3></div>
+    <div class="slds-m-around--large">
+      <form class="slds-form--inline">
+         <div class="slds-form-element">
+             <table class="Table"> 
+              <td style="padding-left:10px"> <label class="slds-form-element__label CountStyle" for="search">Search</label>
+  				<div class="slds-form-element__control">
+            <ui:inputText aura:id="searchId" class="slds-input" value="{!v.searchKeyword}" required="true" placeholder="Type here..." updateOn="keyup" keyup="{!c.Search}"/><!-- updateOn="keyup" keyup="{!c.Search}"/-->
+             </div>
+              </td>
+             	<div class="slds-form-element__control">
+    			<td style="padding-left:100px">
+					<ui:inputCheckbox aura:id="checkId" class="slds-checkbox" change="{!c.Search}" value="{!v.IsNAM}"></ui:inputCheckbox>
+                    <label class="slds-checkbox__label" for="checkbox-2">
+        			<span class="slds-checkbox_faux"></span>
+                    </label>
+                 </td>
+              	<td>
+        			<span class="slds-form-element__label CountStyle">Office in North America</span>
+                 </td>
+              </div>
+             </table>
+  			</div>
+      </form>
+        <hr></hr>
+      <span class="slds-badge CountStyle">{!v.numberOfRecord}</span>
+       <div class="slds">
+      <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-horizontal TableBack Font">
+         <thead class="TableBack">
+            <tr class="slds-text-heading--label">
+               <th scope="col" class="nobordertop Font TableBack">
+                  <div>Office Name </div>
+               </th>
+                <th scope="col" class="nobordertop Font TableBack">
+                  <div>Office Zone </div>
+               </th>
+               <th scope="col" class="nobordertop Font TableBack">
+                  <div>Office Category  </div>
+               </th>
+                <th scope="col" class="nobordertop Font TableBack">
+                  <div>Office Summary  </div>
+               </th>
+            </tr>
+         </thead>
+         <tbody>
+            <aura:if isTrue="{!v.Message}">
+               <div class="slds-text-color--error"> No Result Found...</div>
+            </aura:if>
+            <!--### display all records of searchResult attribute by aura:iteration ###-->
+            <aura:iteration items="{!v.searchResult}" var="off">
+               <tr>
+                  <td  data-label="Office Name" title="Office Name">
+                      <a href="{!'https://pratzorro-dev-ed.lightning.force.com/one/one.app?source=aloha#/sObject/'+off.Id+'/view'}" target="_blank"><div>{!off.Name}</div></a>                      
+                  </td>
+                   <td  data-label="Office Zone" title="Office Zone">
+                     <div>{!off.Office_Zone__c}</div>
+                  </td>
+                  <td data-label="Office Category" title="Office Category">
+                     <div>{!off.Office_Category__c}</div>
+                  </td>
+                  <td data-label="Office Summary" title="Office Summary">
+                     <div>{!off.Office_Summary__c}</div>
+                  </td>
+                  
+               </tr>
+            </aura:iteration>
+         </tbody>
+      </table>
+       </div>
+   </div>
+    </div>
+  <style>
+    .TableBack{
+       			 background-color:#C5FFAF;
+        }
+     .BgCol{
+                background-color: #F4A460;
+        }
+     .Font{
+       			 font-size: 105%;
+        		font-weight: bold;
+   		}
+     .CountStyle{
+        		font-size: 115%;
+      			color: #262626;
+        }
+       .Table{
+   			 width: 100%; 
+        }
+    </style>
+</aura:component>
